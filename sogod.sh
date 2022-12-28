@@ -26,4 +26,4 @@ chown -R sogo /srv/lib/sogo
 cp -L /srv/etc/cron /etc/cron.d/sogo
 
 # Run SOGo in foreground
-LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort "[::1]:20000" -WOPidFile /var/run/sogo/sogo.pid
+LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort "127.0.0.1:20000" -WOPidFile /var/run/sogo/sogo.pid
