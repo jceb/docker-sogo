@@ -16,14 +16,14 @@ else
 fi
 
 # Copy back administrator's configuration
-cp /srv/etc/sogo.conf /etc/sogo/sogo.conf
+cp -L /srv/etc/sogo.conf /etc/sogo/sogo.conf
 
 # Create SOGo home directory if missing
 mkdir -p /srv/lib/sogo
 chown -R sogo /srv/lib/sogo
 
 # Load crontab
-cp /srv/etc/cron /etc/cron.d/sogo
+cp -L /srv/etc/cron /etc/cron.d/sogo
 
 # Run SOGo in foreground
 LD_PRELOAD=$LD_PRELOAD exec /sbin/setuser sogo /usr/sbin/sogod -WOUseWatchDog $USEWATCHDOG -WONoDetach YES -WOPort 20000 -WOPidFile /var/run/sogo/sogo.pid
