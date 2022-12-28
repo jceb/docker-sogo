@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+set -eo pipefail
 
-if [ "${memcached}" = 'false' ]
-then
-        MOD=-x
+if [ "${memcached}" = 'false' ]; then
+	MOD=-x
 else
-        MOD=+x
+	MOD=+x
 fi
 
 chmod ${MOD} /etc/service/memcached/run
