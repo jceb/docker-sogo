@@ -7,7 +7,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/sogo-archive-keyring.gpg] http://pa
 
 # Install Apache, SOGo from repository
 # Workaround for sogo installation issue
-RUN mkdir -p /usr/share/doc/sogo && touch /usr/share/doc/sogo/test.sh
+RUN mkdir -p /usr/share/doc/sogo && touch /usr/share/doc/sogo/bugfix.sh
 RUN apt-get update && \
     apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes && \
     apt-get install -y --no-install-recommends apache2 sogo sogo-activesync memcached && \
