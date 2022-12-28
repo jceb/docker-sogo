@@ -7,7 +7,7 @@ chown -R sogo:sogo /var/run/sogo
 
 #Solve libssl bug for Mail View
 if [[ -z "${LD_PRELOAD}" ]]; then
-	LIBSSL_LOCATION=$(find / -type f -name "libssl.so.*" -print -quit)
+	LIBSSL_LOCATION=$(find /lib /usr/lib /usr/local/lib -type f -name "libssl.so.*" -print -quit)
 	echo "LD_PRELOAD=$LIBSSL_LOCATION" >>/etc/default/sogo
 	export LD_PRELOAD=$LIBSSL_LOCATION
 else
