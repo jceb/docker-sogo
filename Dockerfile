@@ -30,7 +30,7 @@ ADD sogod.sh /etc/service/sogod/run
 ADD sogod-log.sh /etc/service/sogod/log/run
 ADD apache2.sh /etc/service/apache2/run
 ADD apache2-log.sh /etc/service/apache2/log/run
-RUN echo 'CustomLog "|/usr/bin/logger -t httpd -p local0.info" syslog' > /etc/apache2/httpd.conf && \
+RUN echo 'LogFormat "%h %A %l %u %t \"%r\" %>s %p %b" syslog' > /etc/apache2/httpd.conf && \
     cat /etc/apache2/apache2.conf >> /etc/apache2/httpd.conf && \
     mv /etc/apache2/httpd.conf /etc/apache2/apache2.conf && \
     sed -i -e 's|CustomLog \${APACHE_LOG_DIR}/access.log combined|CustomLog "\|/usr/bin/logger -t httpd -p local0.info" syslog|' -e 's|ErrorLog \${APACHE_LOG_DIR}/error.log|ErrorLog /dev/stdout|' /etc/apache2/sites-available/*.conf
