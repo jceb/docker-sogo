@@ -2,3 +2,4 @@ Justfile
 LICENSE
 README.md
 .git/**
+Dockerfile

@@ -6,7 +6,8 @@ RUN curl -L https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D35
 RUN echo "deb [signed-by=/usr/share/keyrings/sogo-archive-keyring.gpg] http://packages.inverse.ca/SOGo/nightly/5/ubuntu focal focal" > /etc/apt/sources.list.d/sogo.list
 
 # Install Apache, SOGo from repository
-# Workaround for sogo installation issue
+# SOGo Bugs: https://bugs.sogo.nu/view_all_bug_page.php
+# Workaround for sogo installation issue, see https://bugs.sogo.nu/view_all_bug_page.php
 RUN mkdir -p /usr/share/doc/sogo && touch /usr/share/doc/sogo/bugfix.sh
 RUN apt-get update && \
     apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes && \
@@ -24,10 +25,17 @@ RUN usermod --home /srv/lib/sogo sogo
 ENV USEWATCHDOG=YES
 
 # SOGo daemons
-RUN mkdir -p /etc/service/sogod /etc/service/apache2 /etc/service/memcached
+RUN mkdir -p /etc/service/sogod/log /etc/service/apache2/log /etc/service/memcached/log
 ADD sogod.sh /etc/service/sogod/run
+ADD sogo-log.sh /etc/service/sogo/log/run
 ADD apache2.sh /etc/service/apache2/run
+ADD apache2-log.sh /etc/service/apache2/log/run
+RUN echo 'CustomLog "|/usr/bin/logger -t httpd -p local0.info" syslog' > /etc/apache2/httpd.conf && \
+    cat /etc/apache2/apache2.conf >> /etc/apache2/httpd.conf && \
+    mv /etc/apache2/httpd.conf /etc/apache2/apache2.conf && \
+    sed -i -e 's|CustomLog \${APACHE_LOG_DIR}/access.log combined|CustomLog "\|/usr/bin/logger -t httpd -p local0.info" syslog|' -e 's|ErrorLog \${APACHE_LOG_DIR}/error.log|ErrorLog /dev/stdout|' /etc/apache2/sites-available/*.conf
 ADD memcached.sh /etc/service/memcached/run
+ADD memcached-log.sh /etc/service/memcached/log/run
 
 # Make GATEWAY host available, control memcached startup
 RUN mkdir -p /etc/my_init.d
