@@ -27,7 +27,7 @@ ENV USEWATCHDOG=YES
 # SOGo daemons
 RUN mkdir -p /etc/service/sogod/log /etc/service/apache2/log /etc/service/memcached/log
 ADD sogod.sh /etc/service/sogod/run
-ADD sogo-log.sh /etc/service/sogo/log/run
+ADD sogod-log.sh /etc/service/sogod/log/run
 ADD apache2.sh /etc/service/apache2/run
 ADD apache2-log.sh /etc/service/apache2/log/run
 RUN echo 'CustomLog "|/usr/bin/logger -t httpd -p local0.info" syslog' > /etc/apache2/httpd.conf && \
