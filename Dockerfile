@@ -10,7 +10,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/sogo-archive-keyring.gpg] http://pa
 RUN echo '\n# include migration scripts, see bug https://bugs.sogo.nu/view.php?id=5666\npath-include=/usr/share/doc/sogo*' >> /etc/dpkg/dpkg.cfg.d/excludes
 RUN apt-get update && \
     apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes && \
-    apt-get install -y --no-install-recommends apache2 sogo sogo-activesync memcached && \
+    apt-get install -y --no-install-recommends apache2 sogo sogo-activesync memcached mariadb-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Activate required Apache modules
