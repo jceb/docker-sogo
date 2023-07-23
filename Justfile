@@ -16,6 +16,10 @@ help:
 build:
     docker build -t "{{ OWNER }}/{{ IMAGE }}:latest" -t "{{ OWNER }}/{{ IMAGE }}:{{ TAG }}" .
 
+# Build image
+build-force:
+    docker build --no-cache -t "{{ OWNER }}/{{ IMAGE }}:latest" -t "{{ OWNER }}/{{ IMAGE }}:{{ TAG }}" .
+
 # Push image
 push:
     docker push "{{ OWNER }}/{{ IMAGE }}:{{ TAG }}"

@@ -1,13 +1,13 @@
 # Base image: https://hub.docker.com/r/phusion/baseimage/tags
+# FROM phusion/baseimage:jammy-1.0.1
 FROM phusion/baseimage:focal-1.2.0
 
 # SOGo supported distributions: https://packages.sogo.nu/nightly/5/ubuntu/dists/
 RUN curl -L https://keys.openpgp.org/vks/v1/by-fingerprint/74FFC6D72B925A34B5D356BDF8A27B36A6E2EAE9 | gpg --dearmor > /usr/share/keyrings/sogo-archive-keyring.gpg
+# RUN echo "deb [signed-by=/usr/share/keyrings/sogo-archive-keyring.gpg] http://packages.inverse.ca/SOGo/nightly/5/ubuntu jammy jammy" > /etc/apt/sources.list.d/sogo.list
 RUN echo "deb [signed-by=/usr/share/keyrings/sogo-archive-keyring.gpg] http://packages.inverse.ca/SOGo/nightly/5/ubuntu focal focal" > /etc/apt/sources.list.d/sogo.list
 
 # Install Apache, SOGo from repository
-# SOGo Bugs: https://bugs.sogo.nu/view_all_bug_page.php
-RUN echo '\n# include migration scripts, see bug https://bugs.sogo.nu/view.php?id=5666\npath-include=/usr/share/doc/sogo*' >> /etc/dpkg/dpkg.cfg.d/excludes
 RUN apt-get update && \
     apt-get -o Dpkg::Options::="--force-confold" upgrade -q -y --force-yes && \
     apt-get install -y --no-install-recommends apache2 sogo sogo-activesync memcached mariadb-client && \
